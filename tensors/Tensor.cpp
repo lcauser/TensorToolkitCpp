@@ -65,24 +65,6 @@ std::vector<int> Tensor::shape() {
 
 
 /*
-    Permuting dimensions
-*/
-void Tensor::permute(int idx1, int idx2) {
-  int temp = permutations[idx1];
-  permutations[idx1] = permutations[idx2];
-  permutations[idx2] = temp;
-}
-
-void Tensor::permute(std::vector<int> idxs) {
-  std::vector<int> perms = permutations;
-  for (int i = 0; i < dims.size(); i++) {
-    perms[i] = permutations[idxs[i]];
-  }
-  permutations = perms;
-}
-
-
-/*
     Indexing the tensor
 */
 int Tensor::getIndex(std::vector<int> idxs) {
@@ -127,4 +109,29 @@ std::complex<double> Tensor::getElement(std::vector<int> idxs) {
 
 std::complex<double> Tensor::getElement(int idx) {
   return tensor[getIndex(idx)];
+}
+
+
+/*
+    Permuting dimensions
+*/
+void Tensor::permute(int idx1, int idx2) {
+  int temp = permutations[idx1];
+  permutations[idx1] = permutations[idx2];
+  permutations[idx2] = temp;
+}
+
+void Tensor::permute(std::vector<int> idxs) {
+  std::vector<int> perms = permutations;
+  for (int i = 0; i < dims.size(); i++) {
+    perms[i] = permutations[idxs[i]];
+  }
+  permutations = perms;
+}
+
+/*
+    Conjugation
+*/
+void Tensor::conj() {
+  conjugated = !conjugated
 }
