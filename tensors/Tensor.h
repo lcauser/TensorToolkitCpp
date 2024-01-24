@@ -32,9 +32,12 @@ class Tensor {
     // Assigning elements; to add: indexing
     void setElement(std::vector<int> idxs, std::complex<double> val);
     void setElement(int idx, std::complex<double> val);
+    void setElement(std::vector<int> idxs, double val);
+    void setElement(int idx, double val);
 
     // Fetching elements
-    void getElement(std::vector<int> idxs);
+    std::complex<double> getElement(std::vector<int> idxs);
+    std::complex<double> getElement(int idx);
 
     // Manipulating the tensor 
     void permute(std::vector<int> idxs); // Permute all dimensions

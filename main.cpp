@@ -2,18 +2,23 @@
 
 int main() {
   Tensor t({2, 4});
+
+  t.setElement({0, 0}, 1);
+  t.setElement({0, 1}, 2);
+  t.setElement({0, 2}, 3);
+  t.setElement({0, 3}, 4);
+  t.setElement({1, 0}, 5);
+  t.setElement({1, 1}, 6);
+  t.setElement({1, 2}, 7);
+  t.setElement({1, 3}, 8);
+
   t.print();
-  std::vector<int> shape = t.shape();
-  std::cout << "(";
-  for (auto dim : shape) {
-    std::cout << dim << ",";
-  }
-  std::cout << ")" << std::endl;
-  std::cout << t.size() << std::endl;
-  std::cout << t.size(1) << std::endl;
 
-  //std::complex<double> num(1.0, 2.0);
-  //std::cout << num << std::endl;
-
+  std::cout << t.getElement({0, 1}) << std::endl;
+  std::cout << t.getElement({1, 0}) << std::endl;
+  t.permute({1, 0});
+  std::cout << t.getElement({0, 1}) << std::endl;
+  std::cout << t.getElement({1, 0}) << std::endl;
+  
   return 0;
 }

@@ -13,10 +13,10 @@ Tensor::Tensor(std::vector<int> dims) : dims(dims) {
   els_per_dim = std::vector<int>(dims.size());
   for (int i = 0; i < dims.size(); i++) {
     // Store the number of elements in subsequent dimensions
-    els_per_dim[dims.size() + 1 - i] = prod;
+    els_per_dim[dims.size() - 1 - i] = prod;
 
     // Calculate the product
-    prod = prod * dims[i];
+    prod = prod * dims[dims.size() - 1 - i];
   }
   tensor = std::vector<std::complex<double>>(prod);
   
@@ -68,17 +68,17 @@ std::vector<int> Tensor::shape() {
     Permuting dimensions
 */
 void Tensor::permute(int idx1, int idx2) {
-  int temp = permutations[idx1]
-  permutations[idx1] = permutations[idx2]
-  permutations[idx2] = temp
+  int temp = permutations[idx1];
+  permutations[idx1] = permutations[idx2];
+  permutations[idx2] = temp;
 }
 
 void Tensor::permute(std::vector<int> idxs) {
-  std::vector<int> perms = permutations 
-  for (i = 0; i < dims.size(); i++) {
-    perms[i] = permutations[idxs[i]]
+  std::vector<int> perms = permutations;
+  for (int i = 0; i < dims.size(); i++) {
+    perms[i] = permutations[idxs[i]];
   }
-  
+  permutations = perms;
 }
 
 
@@ -88,7 +88,7 @@ void Tensor::permute(std::vector<int> idxs) {
 int Tensor::getIndex(std::vector<int> idxs) {
   int idx = 0;
   for (int i = 0; i < idxs.size(); i++) {
-    idx += dims[permutations[i]] * els_per_dim[i];
+    idx += idxs[permutations[i]] * els_per_dim[i];
   }
   return idx;
 }
@@ -102,5 +102,29 @@ int Tensor::getIndex(int idx) {
     Setters
 */
 void Tensor::setElement(std::vector<int> idxs, std::complex<double> val) {
-  
+  tensor[getIndex(idxs)] = val;
+}
+
+void Tensor::setElement(int idx, std::complex<double> val) {
+  tensor[getIndex(idx)] = val;
+}
+
+void Tensor::setElement(std::vector<int> idxs, double val) {
+  tensor[getIndex(idxs)] = val;
+}
+
+void Tensor::setElement(int idx, double val) {
+  tensor[getIndex(idx)] = val;
+}
+
+
+/*
+    Getters
+*/
+std::complex<double> Tensor::getElement(std::vector<int> idxs) {
+  return tensor[getIndex(idxs)];
+}
+
+std::complex<double> Tensor::getElement(int idx) {
+  return tensor[getIndex(idx)];
 }
